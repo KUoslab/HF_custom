@@ -110,19 +110,4 @@ services:
       environment:
         DB_URL: http://localhost:5984/member_db
 
-  # composer.thefact.io:
-  #     container_name: composer.thefact.io
-  #     image: hyperledger/composer:0.19
-  #     ports:
-  #       - "3000:3000"
-  #     command: sh run.sh
-  #     restart:
-  #       always
-  #     depends_on:
-  #       - ca.org.thefact.io
-  #       - orderer.thefact.io
-  #       - peer0.org.thefact.io
-  #       - peer1.org.thefact.io
-  #       - couchdb0
-  #       - couchdb1
 

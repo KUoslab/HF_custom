@@ -37,8 +37,8 @@ else
     exit 1
 fi
 
-PRIVATE_KEY="${DIR}"/fabric/crypto-config/peerOrganizations/org.thefact.io/users/Admin@org.thefact.io/msp/keystore/c335a794cfa1ba4aa2e887950e219adbc69765b82220ff453622f536c9a6a134_sk
-CERT="${DIR}"/fabric/crypto-config/peerOrganizations/org.thefact.io/users/Admin@org.thefact.io/msp/signcerts/Admin@org.thefact.io-cert.pem
+PRIVATE_KEY="${DIR}"/composer/crypto-config/peerOrganizations/org.thefact.io/users/Admin@org.thefact.io/msp/keystore/c335a794cfa1ba4aa2e887950e219adbc69765b82220ff453622f536c9a6a134_sk
+CERT="${DIR}"/composer/crypto-config/peerOrganizations/org.thefact.io/users/Admin@org.thefact.io/msp/signcerts/Admin@org.thefact.io-cert.pem
 
 if "${HL_COMPOSER_CLI}" card list -n PeerAdmin@thefact > /dev/null; then
     "${HL_COMPOSER_CLI}" card delete -n PeerAdmin@thefact

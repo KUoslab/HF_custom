@@ -24,8 +24,8 @@ DIR=`pwd`
 
 #
 
-ARCH=$ARCH docker-compose -f "${DIR}"/fabric/docker-compose.yml down
-ARCH=$ARCH docker-compose -f "${DIR}"/fabric/docker-compose.yml up -d
+ARCH=$ARCH docker-compose -f "${DIR}"/composer/docker-compose.yml down
+ARCH=$ARCH docker-compose -f "${DIR}"/composer/docker-compose.yml up -d
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>
@@ -34,18 +34,18 @@ ARCH=$ARCH docker-compose -f "${DIR}"/fabric/docker-compose.yml up -d
 
 
 # Create the channel for peer0
-docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer0.org.thefact.io peer channel create -o orderer.thefact.io:7050 -c fabricchannel -f /etc/hyperledger/configtx/fabric-channel.tx
+docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer0.org.thefact.io peer channel create -o orderer.thefact.io:7050 -c composerchannel -f /etc/hyperledger/configtx/composer-channel.tx
 sleep 10
-docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer0.org.thefact.io peer channel join -b fabricchannel.block
+docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer0.org.thefact.io peer channel join -b composerchannel.block
 sleep 3
 docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer0.org.thefact.io peer channel list
 
 # Join peer1.org.thefact.io to the channel.
-docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer1.org.thefact.io peer channel fetch config -o orderer.thefact.io:7050 -c fabricchannel
+docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer1.org.thefact.io peer channel fetch config -o orderer.thefact.io:7050 -c composerchannel
 sleep 10
-docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer1.org.thefact.io peer channel join -b fabricchannel_config.block
+docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer1.org.thefact.io peer channel join -b composerchannel_config.block
 sleep 3
 docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org.thefact.io/msp" peer1.org.thefact.io peer channel list
 
-# fabric-rest-server
-#docker run -d --name fabric --network fabric_default -p 3000:3000 hyperledger/fabric:0.19
+# composer-rest-server
+#docker run -d --name composer --network composer_default -p 3000:3000 hyperledger/composer:0.19
