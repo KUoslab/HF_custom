@@ -55,4 +55,4 @@ composer network start --networkName thefact-io --networkVersion 0.0.2 --network
 
 composer card import --file admin@thefact-io.card 
 
-composer-rest-server -c admin@thefact-io -n always -u true -w true
+composer-rest-server -c admin@thefact-io -n always -u true -w true -p 5000

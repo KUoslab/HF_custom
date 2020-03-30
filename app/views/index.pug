@@ -1,5 +1,201 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .row
+      .col-md-3.col-sm-6(style="color:#0D47A1")
+        h4
+          center 블록체인 네트워크에 데이터를 영구적으로 기록하세요!
+      .col-md-3.col-sm-6(style="color:#E53935")
+        h6
+          center 인터넷상의 가짜뉴스, 언어폭력, 명예훼손 등 증거를 수집하고 공유할 수 있습니다. 
+
+    .row 
+     .col.s12
+        p 
+          h5 WEB PAGE
+          h6 기록하려는 웹사이트의 주소(URL)를 입력해주세요. 해당 웹페이지는 PDF형태로 전자서명과 함께 블록체인에 저장됩니다.
+
+    form(action='/snapshot' method="POST" id="snapshot")
+      .row
+        .col.s12
+          if msg == 101
+            .success
+              | The FACT에 데이터가 성공적으로 저장되었습니다.
+          else if msg == 102
+            .error
+              | 에러: 유효하지 않은 주소이거나 중복된 파일이 이미 블록체인에 저장되어 있습니다.
+
+      .row
+       .input-field.col.s12
+        input#caption.validate(type='text' name="targetUrl" required)
+        label(for='targetUrl') http:// or https:// 
+
+      .chips.chips-placeholder.chips-initial(id='chip_snapshot')
+        input#caption.custom-class.validate(name='tagUrl' required)
+      
+      .row
+        .col.s12
+          button.btn.waves-effect.waves-light(type='submit', name='snapshotAction' id='btn_snapshot')
+            | Shot
+            i.material-icons.right send
+
+    .row 
+     .col.s12
+        span.flow-text 
+          | <em><center>or</center></em> 
+
+    .row 
+     .col.s12
+        p 
+          h5 FILE 
+          h6 업로드된 파일은 전자서명과 함께 블록체인에 저장됩니다. 현재 지원되는 파일의 형식은 PDF, JPG, GIF, BMP, PNG 입니다.
+
+    form(action='/upload' method="POST" enctype="multipart/form-data" id="upload")
+      .row
+        .col.s12
+          if msg == 201
+            .success
+              | The Fact에 데이터가 성공적으로 저장되었습니다.
+          else if msg == 202
+            .error
+              | 에러: 파일 사이즈 용량 초과(10MB)입니다.
+          else if msg == 203
+            .error
+              | 에러: 유효하지 않은 파일 형식입니다(PDF, JPG, GIF, BMP, PNG만 가능).
+          else if msg == 204
+            .error
+              | 에러: 중복된 파일이 이미 블록체인에 저장되어 있습니다.
+      .row
+        .col.s12 
+          .file-field.input-field
+            .btn.grey
+              span File
+              input(type='file' name="fact" required)
+            .file-path-wrapper
+              input.file-path.validate(type='text' )
+      .chips.chips-placeholder.chips-initial(id='chip_upload')
+        input#caption.validate(name='tagFile' required)
+      
+      
+      .row
+        .col.s12
+          button.btn.waves-effect.waves-light(type='submit', name='fileAction' id='btn_upload')
+            | Upload
+            i.material-icons.right send
+
+      .row
+        .col.s12
+         br   
+         h4 Recent Items
+    
+      .row
+        .col.s12
+          .row
+            .input-field.col.s12
+              i.material-icons.prefix search
+              input#autocomplete-input.autocomplete(type='text')
+              label(for='autocomplete-input') Find
+
+       
+
+    .infinite_scroll
+      .post 
+
+  script.
+
+    var tagList = {
+      '':null
+    }
+
+    document.addEventListener('DOMContentLoaded', function(e){
+      var elems = document.querySelectorAll('.chips');
+      var instances = M.Chips.init(elems);
+      
+      function chip2data(id){
+        var taglist = [];
+
+        tags = M.Chips.getInstance($("#"+id)).chipsData;
+        $.each(tags, function(index, value){
+          taglist.push(tags[index].tag);
+        });
+
+        return taglist.join(' ')
+      }
+
+      $('#btn_upload').on('click',
+        function(){
+          tag = chip2data('chip_upload');          
+          $('input[name=tagFile]').val(tag.toString('utf-8'));
+        }  
+      )
+      $('#btn_snapshot').on('click',
+        function(){
+          tag = chip2data('chip_snapshot');
+          $('input[name=tagUrl]').val(tag.toString('utf-8'));
+        }
+      )
+      
+    });
+    
+    $(document).ready(function(){
+      $('.chips').chips();
+      $('.chips-initial').chips();
+      $('.chips-placeholder').chips({
+        placeholder: 'Tag',
+        secondaryPlaceholder: '+Tag',
+      });
+      
+      $.get( "/taglist", function( data ) {
+        tempTagList = JSON.parse(data);
+        tempTagList.forEach(function(e){
+          tagList[e._id] = null;
+        })
+      });
+
+      var infScl = $('.infinite_scroll').infiniteScroll({
+        path: function(){
+          var pageNumber = (this.loadCount + 1)
+          return '/fact?page='+ pageNumber + '&limit=5'
+        },
+        append: '.post',
+      });
+      
+      infScl.on('append.infiniteScroll', function( event, response, path, items ) {
+        $('.collapsible').collapsible();
+      });
+
+      $('#autocomplete-input').keyup(function(e){
+        if(e.which == 13){//Enter key up
+        $.get( "/tag?tag="+$('#autocomplete-input').val(), function(result) {
+          $(".infinite_scroll").replaceWith($($.parseHTML(result)).find(".infinite_scroll"));
+          $('.collapsible').collapsible();
+          });     
+        } else if($('#autocomplete-input').val() == ""){
+          window.location.replace("/");
+        }        
+      });
+      
+      $('input.autocomplete').autocomplete({
+        data: tagList,
+        autoFocus: true,
+        onAutocomplete: function(data){
+          encoded = encodeURI(data).replace(/%20/g, "+")
+
+          $.get( "/tag?tag="+encoded, function(result) {
+            $(".infinite_scroll").replaceWith($($.parseHTML(result)).find(".infinite_scroll"));
+            $('.collapsible').collapsible();
+            });     
+          }        
+      });
+    })
+
+    Toastify({
+        text: "현재 시험 운영 중 입니다. 불법 및 유해 자료의 경우 통보 없이 블라인드 처리됩니다.",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        positionLeft: true,
+        backgroundColor: "#FF0000",
+    }).showToast();
+
