@@ -1,5 +1,5 @@
 {
-    "name": "thefact",
+    "name": "oslab",
     "x-type": "hlfv1",
     "version": "1.0.0",
     "client": {
@@ -17,22 +17,22 @@
     },
     "peers": {
         "peer0.org.thefact.io": {
-            "url": "grpc://localhost:7051",
-            "eventUrl": "grpc://localhost:7053"
+            "url": "grpc://127.0.0.1:7051",
+            "eventUrl": "grpc://127.0.0.1:7053"
         },"peer1.org.thefact.io": {
-            "url": "grpc://localhost:8051",
-            "eventUrl": "grpc://localhost:8053"
+            "url": "grpc://127.0.0.1:8051",
+            "eventUrl": "grpc://127.0.0.1:8053"
         }
     },
     "certificateAuthorities": {
         "ca.org.thefact.io": {
-            "url": "http://localhost:7054",
+            "url": "http://127.0.0.1:7054",
             "caName": "ca.org.thefact.io"
         }
     },
     "orderers": {
         "orderer.thefact.io": {
-            "url": "grpc://localhost:7050"
+            "url": "grpc://127.0.0.1:7050"
         }
     },
     "organizations": {

@@ -6,7 +6,7 @@ fi
 
 cat << EOF > connection.json
 {
-    "name": "thefact",
+    "name": "oslab",
     "x-type": "hlfv1",
     "version": "1.0.0",
     "client": {

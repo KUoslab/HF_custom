@@ -1,0 +1,23 @@
+{
+	"name": "oslab",
+	"version": "0.0.1",
+	"description": "COVID-19",
+	"scripts": {
+	  "test": "mocha --recursive"
+	},
+	"author": "oslab",
+	"email": "jaeminim95@gmail.com, khlee@os.korea.ac.kr",
+	"license": "Apache-2.0",
+	"devDependencies": {
+	  "composer-admin": "latest",
+	  "composer-client": "latest",
+	  "composer-common": "latest",
+	  "composer-connector-embedded": "latest",
+	  "chai": "latest",
+	  "eslint": "latest",
+	  "istanbul": "latest",
+	  "mkdirp": "latest",
+	  "mocha": "latest"
+	}
+        }
+        
