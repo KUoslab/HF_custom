@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title CORONA LAB 
+    title TheFACT.io 
     meta(name='viewport', content='width=device-width, initial-scale=1.0'  charset='utf-8')
 
     meta(property="keywords", content="thefact, fact, blockchain, notary, archive, archiving, 코로나, 코로나랩, 블록체인, 환자관리, 공증" charset='utf-8')
@@ -17,7 +17,7 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css')
-
+http://thefact.io/favicon.png"
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/card.css')
 
@@ -33,12 +33,12 @@ html
 
     script(src='https://cdn.jsdelivr.net/npm/toastify-js')
 
-  nav(class="nav-fixed" style="background-color: #9e2b2b")
+  nav(class="nav-fixed" style="background-color: #1F263B")
     div(class="nav-wrapper.container")
       a(class="button-collapse" href="#" data-activates="slide-out" id="button-collapse")
         i.material-icons menu
 
-        a(class="brand-logo center" href='/') CORONA LAB        
+        a(class="brand-logo center" href='/') THEFACT.IO        
 
       ul(id="nav-mobile" class="right hide-on-med-and-down")
           li

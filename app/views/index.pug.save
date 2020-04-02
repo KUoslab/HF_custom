@@ -3,10 +3,10 @@ extends layout
 block content
   .container
     .row
-      .col-md-3.col-sm-6(style="color:#E53935")
+      .col-md-3.col-sm-6(style="color:#0D47A1")
         h4
-          center 코로나 확진자 정보 저장 시스템
-      .col-md-3.col-sm-6(style="color:#000000")
+          center 코로나 무섭다 무서워!
+      .col-md-3.col-sm-6(style="color:#E53935")
         h6
           center 코로나 확진자 정보를 기록하세요. 
 
@@ -14,17 +14,17 @@ block content
      .col.s12
         p 
           h5 COVID-19
-          h6 확진자의 정보를 기록해 주세요.  해당 정보는 안전하게  블록체인 시스템에 저장됩니다.
+          h6 확진자의 정보를 기록해 주세요.  해당 정보는 PDF형태로 전자서명과 함께 블록체인에 저장됩니다.
 
     form(action='/snapshot' method="POST" id="snapshot")
       .row
         .col.s12
           if msg == 101
             .success
-              | 코로나랩에 데이터가 성공적으로 저장되었습니다.
+              | The FACT에 데이터가 성공적으로 저장되었습니다.
           else if msg == 102
             .error
-              | 에러: 유효하지 않은 정보 이거나  중복된 기록이 이미 블록체인에 저장되어 있습니다.
+              | 에러: 유효하지 않은 주소이거나 중복된 파일이 이미 블록체인에 저장되어 있습니다.
 
       .row
        .input-field.col.s12
@@ -32,24 +32,13 @@ block content
         label(for='targetUrl') 환자 이름  
 
        .input-field.col.s12
-        input#caption.validate(type='text' name="patientBday" required)
-        label(for='patientBday') 환자 생년월일
+        input#caption.validate(type='text' name="targetUrl" required)
+        label(for='targetUrl') 환자 이름
 
-       .input-field.col.s12
-        input#caption.validate(type='text' name="infection" required)
-        label(for='infection') 확진여부 (Y/N)
+.input-field.col.s12
+        input#caption.validate(type='text' name="targetUrl" required)
+        label(for='targetUrl') 환자 이름
 
-       .input-field.col.s12
-        input#caption.validate(type='text' name="currentDate" required)
-        label(for='currentDate') 날짜 
-
-       .input-field.col.s12
-        input#caption.validate(type='text' name="travelRoute" required)
-        label(for='travelRoute') 환자 동선 
-
-       .input-field.col.s12
-        input#caption.validate(type='text' name="notes" required)
-        label(for='notes') 비고 
 
       .chips.chips-placeholder.chips-initial(id='chip_snapshot')
         input#caption.custom-class.validate(name='tagUrl' required)
