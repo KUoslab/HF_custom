@@ -173,7 +173,7 @@ block content
       var infScl = $('.infinite_scroll').infiniteScroll({
         path: function(){
           var pageNumber = (this.loadCount + 1)
-          return '/fact?page='+ pageNumber + '&limit=5'
+          return '/patients?page='+ pageNumber + '&limit=5'
         },
         append: '.post',
       });

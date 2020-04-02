@@ -1,0 +1,76 @@
+extends layout
+
+block content
+  .container
+    .cards.infinite_scroll
+      if patientList.length
+        each pic, index in patientList
+            .post
+              .col.s12.m7
+                  ul.collapsible(data-collapsivle="expandable")
+                    li.responsive
+                      .card.collapsible-header
+                        .card-content-tag1
+                          b PatientID<br/>
+                          p #{ pic['pid']} <br/>
+                        .card-signature-left-padding-div
+                        .card-signature
+                          <center>
+                          p(style="font-size:0.8rem; color:#02B3FE;")
+                            | Digital<br/>Signature
+                          a.btn-floating.btn.pulse.cyan(style="width:50px; height:50px")
+                            i.material-icons(style="font-size: 40px; margin-top:5px; margin-left:5px") fingerprint
+                          </center>
+                        .card-signature
+                          <center>
+                          p(style="font-size:0.8rem; color:#E50080;")
+                            | Copy<br/>Link
+                          button.btn-floating.btn.pulse.pink(class="btn_copy_url" style="width:50px; height:50px" data-clipboard-text="https://ipfs.io/ipfs/" + pic['cid'])
+                            i.material-icons(style="font-size: 40px; margin-top:5px; margin-left:5px") link
+                          </center>
+
+                      .collapsible-body
+                        .card-content-tag2
+                          b test <br/>
+                          | #{ pic['name']} <br/><br>
+                        b Name <br/>
+                        if pic['name'].startsWith('http')
+                          a(href=pic['name'] target="_blank") #{pic['name']}
+                        else
+                          h7 #{pic['name']}
+                        <br/><br/>
+                        b Brithdate <br/>
+                        | #{pic['birthDate']}
+                        <br/><br/>
+                        b Infection <br/>
+                        | #{pic['infection']}
+                        <br/><br/>
+                        b Travel route<br/>
+                        | #{pic['travelRoute']}
+                        <br/><br/>
+                        b Notes<br/>
+                        | #{pic['note']}
+
+        if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
+            center
+              ul.pager(style="font-size:1.8rem")
+                if paginate.hasPreviousPages
+                  li.waves-effect
+                    a(href=paginate.href(true)) 
+                      i.material-icons.medium chevron_left
+                li.waves-effect
+                  if pages
+                    each page in pages
+                      a(href=page.url)= page.number 
+                       |&nbsp;
+                if paginate.hasNextPages(pageCount)
+                  li.waves-effect
+                    a(href=paginate.href()) 
+                      i.material-icons.medium chevron_right
+
+        else
+          <br/><br/><br/>
+          h1 :(
+          <br/>
+          h5 No data yet.
+          <br/><br/><br/>
