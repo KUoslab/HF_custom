@@ -1,0 +1,107 @@
+@charset "UTF-8";
+.card {
+    margin:0;
+    box-shadow:none;
+}
+.card-image{
+    width:120px;
+    height:auto;
+}
+.collapsible{
+    margin:0.650rem;
+    box-shadow: 0 6px 5px -1px rgba(0,0,0,0.20)
+}
+
+.collapsible-header{
+    height:12rem;
+    line-height: 1.5rem;
+    border-bottom:none;
+}
+
+.thumbnail{
+    min-width:120px;
+    min-height: 140px;
+    width:100%;
+    height:100%;
+}
+
+.card-content{
+    width:75%;
+    font-size:1.3rem;
+    align-self: center;
+}
+
+.card-content-tag1{
+    padding-left: 1em;
+    width:75%; 
+    font-size:1.3rem;
+    align-self: center;
+}
+
+.card-content-tag2{
+    display:none;
+}
+
+.card-content-transaction{
+    width:90%;
+    font-size:1.3rem;
+    align-self: center;
+}
+
+.card-blue-grey-padding{
+    padding: 2em;
+    background-color:#263238 !important;
+}
+
+@media screen and (max-width:450px){
+    .card-content-tag1{
+        /*width:30%;*/
+        font-size:0.9rem;
+        display: none;
+    }
+    .card-content-tag2{
+        display: block;
+    }
+}
+
+.card-signature{
+    margin-right: 10px;
+    align-self: right;
+}
+
+@media screen and (max-width: 450px){
+    .card-signature{
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        align-self: right;
+    }
+    .card-signature-left-padding-div{
+        width: 5em;
+    }
+
+}
+
+.fa {
+    padding-top: 8px;
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 50%;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+background: #3B5998;
+color: white;
+}
+
+.fa-twitter {
+background: #55ACEE;
+color: white;
+}

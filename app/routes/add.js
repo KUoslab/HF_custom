@@ -1,17 +1,21 @@
 module.exports = {
-	getID: function(cid, contentHash, signature, callback) {
+	getID: function(cid, pid, name, birthDate, infection, date, travelRoute, note, callback) {
 	    const request = require('request');
 	    var data = {
-	        "$class": "org.thefact.io.PublishNotary",
-	        "NotaryId": cid,
-	        "notary": {
-		  "$class": "org.thefact.io.Notary",
-		  "owner": {
-		      "$class": "org.thefact.io.Users",
-		      "userWallet": 'dst'
+	        "$class": "org.oslab.ac.kr.PublishCOVID",
+	        "COVIDId": cid,
+	        "covid": {
+		  "$class": "org.oslab.ac.kr.COVID",
+		  "patientId": {
+		      "$class": "org.oslab.ac.kr.Patients",
+		      "PatientId": pid
 		  },
-		  "Content": contentHash,
-		  "DigitalSignature": signature
+		  "name": name,
+		  "birthDate": birthDate,
+		  "infection": infection,
+		  "date": date,
+		  "travelRoute": travelRoute,
+		  "note": note
 	        }
 	    }
 	    var json = JSON.stringify(data);
@@ -22,11 +26,10 @@ module.exports = {
 		  'Accept': 'application/json'
 	        },
 	        json: JSON.parse(json),
-	        url: 'http://localhost:5000/api/org.thefact.io.PublishNotary'
-      
+	        url: 'http://localhost:5000/api/org.oslab.ac.kr.PublishCOVID'
 	    }
       
-	    var ID = []
+	    var txID = []
       
 	    request.post(options,
 	        function (err, response, body) {
@@ -40,10 +43,10 @@ module.exports = {
 		  } else {
 		      console.log('succeeded in storing into the blockchain');
 		      var transactionID = body['transactionId'];
-		      ID.push(transactionID)
-		      callback(ID)
+		      txID.push(transactionID)
+		      callback(txID)
 		  }
-      
+
 	        }
 	    );
 	}
