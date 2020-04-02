@@ -16,7 +16,7 @@ block content
           h5 COVID-19
           h6 확진자의 정보를 기록해 주세요.  해당 정보는 안전하게  블록체인 시스템에 저장됩니다.
 
-    form(action='/snapshot' method="POST" id="snapshot")
+    form(action='/upload' method="POST" id="upload")
       .row
         .col.s12
           if msg == 101
@@ -28,31 +28,28 @@ block content
 
       .row
        .input-field.col.s12
-        input#caption.validate(type='text' name="targetUrl" required)
-        label(for='targetUrl') 환자 이름  
+        input#caption.validate(type='text' name="name" required)
+        label(for='name') 환자 이름  
 
        .input-field.col.s12
-        input#caption.validate(type='text' name="patientBday" required)
-        label(for='patientBday') 환자 생년월일
+        input#caption.validate(type='text' name="birthDate" required)
+        label(for='birtheDate') 환자 생년월일
 
        .input-field.col.s12
         input#caption.validate(type='text' name="infection" required)
         label(for='infection') 확진여부 (Y/N)
 
        .input-field.col.s12
-        input#caption.validate(type='text' name="currentDate" required)
-        label(for='currentDate') 날짜 
+        input#caption.validate(type='text' name="date" required)
+        label(for='date') 날짜 
 
        .input-field.col.s12
         input#caption.validate(type='text' name="travelRoute" required)
         label(for='travelRoute') 환자 동선 
 
        .input-field.col.s12
-        input#caption.validate(type='text' name="notes" required)
-        label(for='notes') 비고 
-
-      .chips.chips-placeholder.chips-initial(id='chip_snapshot')
-        input#caption.custom-class.validate(name='tagUrl' required)
+        input#caption.validate(type='text' name="note" required)
+        label(for='note') 비고 
       
       .row
         .col.s12

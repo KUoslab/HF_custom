@@ -1,5 +1,5 @@
 module.exports = {
-	getID: function(cid, pid, name, birthDate, infection, date, travelRoute, note, callback) {
+	getID: function(cid, pid, name, birthDate, infection, date, travelRoute, note, note, callback) {
 	    const request = require('request');
 	    var data = {
 	        "$class": "org.oslab.ac.kr.PublishCOVID",
@@ -34,11 +34,10 @@ module.exports = {
 	    request.post(options,
 	        function (err, response, body) {
 		  var firstKey = Object.keys(body)[0];
-	
 		  if (firstKey === 'error') {
 		      const msg = ((body || {}).error || {}).message;
 		      console.log('failed to store in the blockchain; the same content might exist in the blockchain')
-		      callback(ID)
+		      callback(txID)
       
 		  } else {
 		      console.log('succeeded in storing into the blockchain');
@@ -46,7 +45,6 @@ module.exports = {
 		      txID.push(transactionID)
 		      callback(txID)
 		  }
-
 	        }
 	    );
 	}
