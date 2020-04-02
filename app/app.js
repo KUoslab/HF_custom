@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -7,13 +8,12 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var app = express();
-
 /* connect to database */
-var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/dbpatients', {useNewUrlParser:true})
-require('./models/Patients')
+mongoose.connect('mongodb://localhost:27017/dbpatients', {useNewUrlParser:true});
+require('./models/Patients');
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,5 +43,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

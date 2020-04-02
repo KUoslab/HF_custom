@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var Patients = moongoose.mode('Patients')
+// var mongoose = require('mongoose')
+// var Patients = mongoose.model('Patients')
+var Patients = require('../models/Patients')
 var add = require('./add');
 
 /* GET home page. */

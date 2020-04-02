@@ -8,7 +8,6 @@ var pSchema = new Schema({
 	date: {type:String},
 	travelRoute: {type: String},
 	note: {type: String},
-	//
 	tid: {type: String},
 	pid: {type: String},
 	cid: {type: String},
