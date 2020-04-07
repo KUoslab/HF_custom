@@ -30,10 +30,10 @@ router.post('/upload', function(req, res, next){
         timestamp: ""
       };
 
-      pid = doc.name.concat(" ", doc.birthDate, " ", doc.infection, " ", doc.date, " ", doc.travelRoute, " ", doc.note )
-      doc.pid = hash.getHash(pid)
-      cid = pid.concat.concat(" ", "oslab")
-      doc.cid = hash.getHash(cid)
+      pid = doc.name.concat(" ", doc.birthDate, " ", doc.infection, " ", doc.date, " ", doc.travelRoute, " ", doc.note );
+      doc.pid = hash.getHash(pid);
+      cid = pid.concat(" ", "oslab");
+      doc.cid = hash.getHash(cid);
       
       // TODO : add timstamp, cid, pid ...
       (async () => {
