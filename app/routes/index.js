@@ -5,6 +5,7 @@ var router = express.Router();
 var Patients = require('../models/Patients')
 var upload = require('./upload')
 var add = require('./add');
+var hash = require('./hash')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,6 +29,12 @@ router.post('/upload', function(req, res, next){
         cid: "",
         timestamp: ""
       };
+
+      pid = doc.name.concat(" ", doc.birthDate, " ", doc.infection, " ", doc.date, " ", doc.travelRoute, " ", doc.note )
+      doc.pid = hash.getHash(pid)
+      cid = pid.concat.concat(" ", "oslab")
+      doc.cid = hash.getHash(cid)
+      
       // TODO : add timstamp, cid, pid ...
       (async () => {
         await add.getID(doc.cid, doc.pid, doc.name, doc.birthDate, doc.infection, doc.date, doc.travelRoute, doc.note, doc.note, function callback(txID){
