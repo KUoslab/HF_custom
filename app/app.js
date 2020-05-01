@@ -45,7 +45,7 @@ app.get('/patients', async (req, res, next) => {
     const pageCount = Math.ceil(itemCount / req.query.limit);
 
     res.render('patients', {
-      patientList: results,
+      patientlist: results,
       pageCount,
       itemCount,
       pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)

@@ -1,5 +1,5 @@
 module.exports = {
-	getID: function(cid, pid, name, birthDate, infection, date, travelRoute, note, note, callback) {
+	getID: function(cid, pid, name, birthDate, infection, date, travelRoute, note, callback) {
 	    const request = require('request');
 	    var data = {
 	        "$class": "org.oslab.ac.kr.PublishCOVID",

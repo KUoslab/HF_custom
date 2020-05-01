@@ -51,26 +51,26 @@ block content
                         b Notes<br/>
                         | #{pic['note']}
 
-        if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
-            center
-              ul.pager(style="font-size:1.8rem")
-                if paginate.hasPreviousPages
-                  li.waves-effect
-                    a(href=paginate.href(true)) 
-                      i.material-icons.medium chevron_left
-                li.waves-effect
-                  if pages
-                    each page in pages
-                      a(href=page.url)= page.number 
-                       |&nbsp;
-                if paginate.hasNextPages(pageCount)
-                  li.waves-effect
-                    a(href=paginate.href()) 
-                      i.material-icons.medium chevron_right
+        //- if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
+        //-     center
+        //-       ul.pager(style="font-size:1.8rem")
+        //-         if paginate.hasPreviousPages
+        //-           li.waves-effect
+        //-             a(href=paginate.href(true)) 
+        //-               i.material-icons.medium chevron_left
+        //-         li.waves-effect
+        //-           if pages
+        //-             each page in pages
+        //-               a(href=page.url)= page.number 
+        //-                |&nbsp;
+        //-         if paginate.hasNextPages(pageCount)
+        //-           li.waves-effect
+        //-             a(href=paginate.href()) 
+        //-               i.material-icons.medium chevron_right
 
-        else
-          <br/><br/><br/>
-          h1 :(
-          <br/>
-          h5 No data yet.
-          <br/><br/><br/>
+        //- else
+        //-   <br/><br/><br/>
+        //-   h1 :(
+        //-   <br/>
+        //-   h5 No data yet.
+        //-   <br/><br/><br/>
