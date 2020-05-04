@@ -13,3 +13,8 @@
 # Start Composer
 1. cd hyperledger/hyperledger-composer
 2. ./run.sh
+
+# Start Webserver 
+1. cd app/bin
+2. ./db.sh
+3. ./www
