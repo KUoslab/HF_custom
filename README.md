@@ -1,7 +1,7 @@
 # HF_custom
 
 # Install 
-1. nvm install 10.0.0 
+1. nvm install v8 
 2. npm install -g composer-cli@0.19  
 3. npm install -g composer-rest-server@0.19
 4. npm install -g generator-hyperledger-composer@0.19
