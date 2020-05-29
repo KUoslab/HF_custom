@@ -1,6 +1,6 @@
 /*
 *
-*  ******************************************************************************
+*  *****************************************************************************************************
 *   Copyright 2020 Korea University 
 *
 *   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +14,9 @@
 *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
-*   ******************************************************************************
-*   Developed by Stella team, Operating Systems Lab of Korea University
-*   ******************************************************************************
+*   *****************************************************************************************************
+*   Developed by Kwanhoon Lee, Jaemin Im, Stella team, Operating Systems Lab of Korea University
+*   *****************************************************************************************************
 *
 */
 const upload = function(req, res, callback){
