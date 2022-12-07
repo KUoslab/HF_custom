@@ -1,4 +1,4 @@
-# Corona patient information management system using Hyperledger Fabric
+# COVID-19 patient information management system using Hyperledger Fabric
 
 ## Contents
 
@@ -94,7 +94,7 @@ As the COVID-19 virus spreads around the world, it has become important to manag
  
 + Run Hyperledger Fabric network
 	+ Provide 5 scripts in hyperledger-fabric directory
-		+ It works only in a single server version, and when used in a distributed environment, modify the script by referring to the 4. Additional guide.
+		+ It works only in a single server version, and when used in a distributed system, modify the script by referring to the 4. Additional guide.
 		+ 0_downloadFabric.sh: Download Fabric component docker image
 		+ 1_generateGenesisblock.sh: Generate Genesis block and certificate of Fabric network 
 		+ 2_startFabric.sh: Start Fabric network and configure peer nodes channel
@@ -173,159 +173,158 @@ As the COVID-19 virus spreads around the world, it has become important to manag
 ## Additional guide (Distributed version)
 
 + Build a new Hyperledger Fabric network 
-	+ Fabric network를 분산 환경에 구축하는 하기 위해서 
-		1. Fabric network의 설정을 변경 및 초기화,
-		2. 추가된 노드들의 새로운 암호화 키 발급,
-		3. 새로운 Genesis block 생성, 
-		4. Fabric의 개별 node의 설정(IP 주소 및 암호화 키 주소 등) 변경,
-		5. Fabric network 채널 생성 및 모든 노드의 채널 참여를 설정해야 함 
+	+ To build a fabric network in a distributed system 
+		1. Change and initialize fabric network settings,
+		2. Issue new encryption keys for added nodes,
+		3. Create a new Genesis block,
+		4. Change the settings of individual nodes in the fabric (IP address and encryption key address, etc.),
+		5. Create Fabric network channel and all nodes' participation in the channel must be set.
 
++ Modify crypto-config.yaml file
+	+ The crypto-config.yaml file is a file that defines orderer and peer organizations participating in the Fabric network. It generates a new encryption key based on the contents declared in crpyto-config.yaml
+	+ To build a distributed system, the number of Organization, Peer, and Orderer nodes must be defined in the file.
+		+ OrdererOrgs: Defines the organization that manages the Ordering Service Node (sets the name and domain of the orderer node)
+		+ PeerOrgs: Defines the organization that manages peer nodes (sets the name and domain of peer nodes)
+		+ *Template: Defines the number of peer nodes (* To set up multiple peer nodes and build a distributed system, this option must be adjusted)
+		+ Users: Defines the number of users who can request transaction proposals to fabric nodes.
 
-+ crypto-config.yaml 파일 수정 
-	+ crypto-config.yaml 파일은 Fabric network에 참여하는 Orderer, Peer 조직을 정의하는 파일로, crpyto-config.yaml 에 선언된 내용을 바탕으로 새로운 암호화 키를 생성함 
-	+ 분산 환경을 구축하기 위해서, 해당 파일에서 Organization, Peer, Orderer 노드의 수를 정의해야 함 
-		+ OrdererOrgs: Ordering Service Node를 관리하는 조직을 정의(Orderer 노드의 이름, 도메인을 설정함)
-		+ PeerOrgs: Peer 노드를 관리하는 조직을 정의(Peer 노드의 이름, 도메인을 설정함)
-		+ *Template: Peer 노드의 수를 정의(* 다수의 Peer 노드를 설정하고 분산 환경을 구축하기 위해서는 해당 옵션을 조절해야 함)
-		+ Users: Fabric 노드에 transaction proposal 요청이 가능한 유저의 수를 정의 
-
-+ configtx.yaml 파일 수정 
-	+ configtx.yaml 파일은 조직, Ordering service(Solo, Kafka and Raft), Channel에 관한 Profile을 정의하는 파일로, configtx.yaml 에 선언된 내용을 바탕으로 새로운 Genesis block을 생성함 
-	+ 해당 파일을 수정하기 위해서는 crpyto-config.yaml 파일을 바탕으로 생성된 암호화 키의 위치 정보가 필요함 
-		+ Organizations: 조직 관련 속성을 설정함 
-		+ Org: 조직에 관한 메타 정보를 정의
-		+ Name, ID: 조직의 이름과 ID를 설정
-		+ **MSPDir: MSP(Membership Service Provider)의 암호화 키 파일의 위치를 설정 
-			+ 새로운 암호화 키를 생성했을 경우, 암호화 키 파일의 주소를 수정해야 함 
++ Modify configtx.yaml file
+	+ The configtx.yaml file is a file that defines profiles for organizations, ordering services (Solo, Kafka and Raft), and channels, and creates a new Genesis block based on the contents declared in configtx.yaml.
+	+ To modify this file, the location information of the encryption key generated based on the crpyto-config.yaml file is required.
+		+ Organizations: sets properties related to organization
+		+ Org: defines meta information about the organization
+		+ Name, ID: Set the organization name and ID
+		+ **MSPDir: Set the location of the encryption key file of the Membership Service Provider (MSP)
+			+ When a new encryption key is created, the location of the encryption key file must be modified.
 			+ ex) crypto-config/[Organization name]/[Domain]/msp
-		+ Policies: Orderer 조직의 읽기/쓰기에 관한 정책을 설정 
-		+ AnchorPeers: Endorsement 를 수행하는 Peer의 주소를 설정(** Peer의 수를 증가시키거나, 조직의 수를 증가시킬 경우 해당 경로를 설정해야 함) 
-		+ Host: AnchorPeer 노드의 도메인 혹은 IP address 
-		+ Port: AnchorPeer 노드의 Port number
-		+ Orderer: Ordering service node 관련 속성을 설정함 
-		+ OrdererType, Addresses, BatchTime, BatchSize 를 정의 
+		+ Policies: Set the read/write policies of the orderer organization.
+		+ AnchorPeers: Set the location of peers that perform endorsement (** When increasing the number of peers or organizations, the location must be set)
+		+ Host: AnchorPeer node's domain or IP address
+		+ Port: AnchorPeer node's Port number
+		+ Orderer: sets properties related to ordering service node
+		+ Define OrdererType, Addresses, BatchTime, BatchSize
 
-	+ 암호화 키 및 Genesis block 생성 
-		+ crypto-config.yaml 파일을 바탕으로 새로운 Fabric 조직의 암호화 키를 생성 
+	+ Generate encryption key and Genesis block
+		+ Generate a encryption key for a new Fabric organization based on the crypto-config.yaml file
 			``` shell
 			cd hyperledger-fabric/fabric/
 			cryptogen generate --config=./config.yaml	
 			```
-		+ configtx.yaml 파일을 바탕으로 새로운 Genesis block 생성 
+		+ Create a new Genesis block based on the configtx.yaml file
 			``` shell
 			configtxgen -profile [profile name] -channelID [channel name] -outputBlock ./[block name.block] -outputCreateChannelTx ./[channel filename.tx] 
 			```
 
-+ Fabric component docker 파일 수정 
-	+ Peer, Orderer 노드를 추가할 경우, docker-compose.yaml 파일을 수정하여 개별 노드의 속성 정보를 정의해야 하며, * 분산 환경을 구축할 경우, 각 서버 안에 Peer, Orderer 노드에 관한 .yaml 파일이 개별적으로 존재해야 함
++ Modify Fabric component docker file
+	+ When adding peer and orderer nodes, the docker-compose.yaml file must be modified to define the property information of individual nodes. * When building a distributed system, .yaml files for peer and orderer nodes are must exist in each of servers.
 		+ ex) org1_peer0.yaml, org1_peer1.yaml, org2_peer0.yaml …
 
 	+ CA.yaml 
-		+ Fabric node들의 채널 참여, Admin 권한 등에 관한 확인을 수행하는 노드 
-		+ 수정해야 할 부분 
-			+ node의 이름 수정 
-				* container name이 중복되어서는 안되며, Fabric network에 설정한 domain name으로 변경  
+		+ A node that checks the channel participation of fabric nodes, admin authority, etc.
+		+ things that must be modified :
+			+ Modify node name
+				* The container name must not be duplicated, and it must be changed to the domain name set in the Fabric network.
 					- container_name: ca.[domain name]
 
 
-			+ 암호화 키 path 수정 
-				* 조직의 이름 및 도메인을 수정하였을 경우, 해당 path를 수정
+			+ Modify encryption key path
+				* If the name and domain of the organization are modified, modify the corresponding path.
 				volumes:
 				- ./crypto-config/[Organization name]/[domain name]/ca/:/etc/hyperledger/fabric-ca-server-config
 
-			+ CA 노드의 암호화 키 설정 
-				* 새롭게 생성된 암호화 키 파일 이름을 변경(Fabric network 변경시 암호화 키 파일의 이름이 변경되므로 해당 path를 수정해야 함) 
+			+ Set the CA Node's Encryption Key
+				* Change the name of the newly created encryption key file (the name of the encryption key file is changed when the fabric network is changed, so the corresponding path must be modified)
 				environment: 
 				- FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/[KEYFILE_NAME]
 
-			+ CA 노드가 수행할 command 변경 
-				* 명령어에 KEYFILE 이름을 변경해야 하며, ADMIN 계정의 아이디와 비밀번호를 변경해야 함 
+			+ Change command to be executed by CA node
+				* The KEYFILE name must be changed in the command, and the ID and password of the ADMIN account must be changed.
 				- command: sh -c ‘fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.[domain name] --ca.keyfile /etc/hyperledger/fabric-ca-server-config/[KEYFILE NAME] -b [admin ID]:[admin PW] -d’
 
 
 	+ Peer[number].yaml
-		+ Fabric network에 요청 받은 Transaction proposal의 보증 및 ledger를 관리하는 노드 
-		+ 수정해야 할 부분 
-			+ node의 이름 수정
-				* container name이 중복되어서는 안되며, Fabric network에 설정한 domain name과 설정한 조직에 따라 이름을 수정해야 함 
+		+ A node that manages request for the transaction proposal guarantee and ledger 
+		+ things that must be modified :
+			+ Modify node name
+				* The container name must not be duplicated, and it must be changed to the domain name set in the Fabric network.
 				- container_name: peer[number].[domain name]
-			+ node의 IP address 수정 
-				* 분산환경을 구축할 시, 개별 Peer 노드의 IP Address를 수정해야 함 (기본적으로 0.0.0.0:7051 사용)
+			+ Modify node's IP address
+				* When building a distributed system, the IP address of each peer node must be modified (default is 0.0.0.0:7051)
 				- CORE_PEER_ADDRESS=[IP Address]:[Port number]
 
-			+ 암호화 키 path 수정 
-				* 조직의 이름 및 도메인을 수정하였을 경우, 해당 path를 수정
+			+ Modify encryption key path
+				* If the name and domain of the organization are modified, the corresponding path must be modified.
 				volumes:
 				- ./crypto-config/[Organization name]/[domain name]/[peer container name]/msp:/etc/hyperledger/peer/msp 
 				- ./crypto-config/[Organization name]/[domain name]/[peer container name]/users:/etc/hyperledger/msp/users
 
 	+ Orderer[number].yaml
-		+ Fabric network에 들어온 Transaction의 순서를 결정하고, 새로운 블록을 생성하는 노드 
-		+ 수정해야 할 부분 
-			+ node의 이름 수정
-				* container name이 중복되어서는 안되며, Fabric network에 설정한 domain name과 설정한 조직에 따라 이름을 수정해야 함 
+		+ A node that determines the order of transactions entering the fabric network and creates a new block
+		+ things that must be modified :
+			+ Modify node name
+				* The container name must not be duplicated, and it must be changed to the domain name set in the Fabric network.
 				- container_name: orderer[number].[domain name]
 
-			+ genesis block의 파일이름 변경 
-				* 새로 생성한 genesis block의 파일이름 변경
+			+ Change the file name of the genesis block
+				* Change the file name of the newly created genesis block
 				enviroment:
 				- ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/[genesis block filename]
 
 
-			+ 암호화 키 path 수정 
-				* 조직의 이름 및 도메인을 수정하였을 경우, 해당 path를 수정
+			+ Modify encryption key path
+				* If the name and domain of the organization are modified, the corresponding path must be modified.
 				volumes:
 				- ./crypto-config/[Organization name]/[domain name]/orderers/orderer.[domain name]/msp:/etc/hyperledger/msp/orderer/msp
 
 
-			+ node의 IP address 및 Port number 수정 
-				* 분산환경을 구축할 시, 개별 Orderer 노드의 IP Address를 수정해야 함 (기본적으로 IP address 0.0.0.0, Port 7050 사용)
+			+ Modify node's IP address
+				* When building a distributed system, the IP address of each orderer node must be modified (default is 0.0.0.0:7050)
 				- ORDERER_GENERAL_LISTENADDRESS=[IP Address]
 				- ORDERER_GENERAL_LISTENPORT=[Port number]
 
-+ Fabric network 채널 생성 및 노드의 채널 참여 
-	+ Fabric network 가 동작하기 위해서는 하나 이상의 채널이 생성되어 있어야 하며, 모든 노드들은 반드시 채널에 참여해야 함
-	* 분산 환경 구축 시, 모든 노드가 채널에 참여할 수 있도록 개별적으로 command line을 입력하여야 함
++ Fabric network channel creation and node participation in the channel
+	+ In order for the fabric network to operate, at least one channel must be exist, and all nodes must participate in the channel.
+	* When building a distributed system, the command line must be entered individually so that all nodes can participate in the channel.
 
-	+ channel.tx 파일 생성 
-		+ configtxgen을 이용한 channel.tx 파일 생성 
+	+ Create channel.tx file
+		+ Create channel.tx file using configtxgen
 
 		``` shell
 		export CHANNEL_NAME=[channel name] 
 		configtxgen -profile [channel profile] -outputAnchorPeersUpdate -outputCreate ChannelTx ./channel-artifacts/channel.tx -channelID [channel name]
 		```
 
-	+ configtx.yaml 파일을 바탕으로 채널 속성 정의 및 AnchorPeer 업데이트 
-		* 새롭게 추가된 모든 조직 및 AnchorPeer에 대해서 아래의 커맨드 라인을 변경하여 입력해야 함 (ex. Org1MSPanchors.tx, Org2MSPachors.tx)
+	+ Define channel properties and update AnchorPeer based on configtx.yaml file
+		* For all newly added organizations and AnchorPeers, the command line below must be modified and entered (ex. Org1MSPanchors.tx, Org2MSPachors.tx)
 
 		``` shell
 		configtxgen -profile [channel Profile] -channelID [channel name] -outputAchorPeersUPdate ./channel-artifacts/Org1MSPanchors.tx -asOrg1MSP
 		```
 
-+ Fabric component 실행 
-	+ 설정한 모든 노드에 대하여 개별적으로 아래의 커맨드 라인을 입력
-	* 분산 환경 구축 시, 개별 서버에 사용될 Fabric component를 실행하기 위하여 아래의 커맨드 라인을 입력 
++ Run Fabric component 
+	+ Enter the following command line individually for all configured nodes
+	* When building a distributed system, enter the command line below to run Fabric components to be used on individual servers.
 
 	``` shell
 	docker-compose -f [fabric-component filename(ex. peer0.yaml)] up -d 
 	```
 
-+ Fabric network의 channel 생성 
-	+ 채널의 AnchorPeer 노드의 container에 아래와 같이 커맨드 라인을 입력하여 새로운 채널 생성
-	* channel name은 이전에 genesis block을 생성할 때와 동일한 채널 이름이어야 함 
++ Fabric network channel creation 
+	+ Create a new channel by entering the following command line in the container of the channel's AnchorPeer node
+	* channel name should be the same channel name as when creating the genesis block earlier
 	``` shell
 	docker exec -e peer[number].[domain name] peer channel create -o orderer.[IP Address]:7050 -c [channel name] -f /etc/hyperledger/[channel file name]
 	```
 
-+ Peer 노드의 channel 참여 
-	* Fabric network의 모든 노드가 channel에 참여한 상태여야 체인코드 Installation이 가능함 
++ channel Joining of peer node
+	* Chaincode installation is possible only when all nodes in the Fabric network have participated in the channel.
 	``` shell
 	docker exec -e peer[number].[domain name] peer channel join -b [fabric genesisblock filename] -c [channel name]
 	```
 
 + Build a new Hyperledger Composer REST server
-	+ Fabric network와 composer 연동을 위한 노드들의 주소 참조 설정파일 수정 
-	* 분산 환경 구축 시, 개별 서버에 동작하고 있는 노드들의 IP Address를 변경해야 함
+	+ Modify the address reference configuration file of nodes to link up Fabric network with composer
+	* When building a distributed system, the IP addresses of nodes running on individual servers must be changed.
 
 	``` shell
 	vi ../hyperledger-composer/card/connection.json
@@ -339,19 +338,19 @@ As the COVID-19 virus spreads around the world, it has become important to manag
 	…},
 	```
 
-+ Composer를 이용한 Fabric network 사용을 위한 인증서 입력 및 chaincode installation
++ Certificate input and chaincode installation for using Fabric network using Composer
 	``` shell
 		export PRIVATE_KEY=”../hyperledger-fabric/fabric/crypto-config/[domain name]/users/Admin@[domain 
 		name]/msp/keystore/[private keyname]”
 		export CERT=”../hyperledger-fabric/fabric/crypto-config/[domain name]/users/msp/signcerts/Admin@[domain name].pem”
 		composer network install composer card create -p ./card/connection.json -u PeerAdmin -c ${CERT} -k ${PRIVATE_KEY} -r PeerAdmin -r ChannelAdmin --file ./card/PeerAdmin@[domain name].card
 		composer card import --file ./card/PeerAdmin@[domain name].card
-		composer network install -c PeerAdmin@[domain name] -a oslab@0.0.1bna (*bna 파일은 chaincode 파일)
-		composer network start --networkName oslab --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret [CA.yaml 파일에 기록한 admin password] --card PeerAdmin@[domain name]
+		composer network install -c PeerAdmin@[domain name] -a oslab@0.0.1bna (*bna file is chaincode file)
+		composer network start --networkName oslab --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret [admin password written in CA.yaml file] --card PeerAdmin@[domain name]
 		composer card import --file admin@[domain name].card
 	```
 
-+ Composer REST server 실행 
++ Run Composer REST server
 	``` shell
 	composer-rest-server -c admin@[domain name] -n always -u true -w true -p [port number]
 	```
